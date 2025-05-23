@@ -5,8 +5,10 @@ public class PlayerClass : MonoBehaviour
 {
     public float moveSpeed = 7f;
     public List<KeyCode> fireKeys = new List<KeyCode> { KeyCode.P };
+    public List<KeyCode> missileKeys = new List<KeyCode> { KeyCode.Space }; // เพิ่มการยิง Missile ด้วย Spacebar
 
     private GameObject bulletPrefab;
+    private GameObject missilePrefab; // เพิ่มตัวแปรสำหรับ Missile Prefab
 
     void Start()
     {
@@ -15,6 +17,13 @@ public class PlayerClass : MonoBehaviour
         if (bulletPrefab == null)
         {
             Debug.LogWarning("ไม่พบ Bullet Prefab ที่ Resources/Prefabs/Bullet");
+        }
+
+        // โหลด missile Prefab จาก Resources/Prefabs/missile
+        missilePrefab = Resources.Load<GameObject>("Prefabs/missile");
+        if (missilePrefab == null)
+        {
+            Debug.LogWarning("ไม่พบ Bullet Prefab ที่ Resources/Prefabs/missilePrefab");
         }
     }
 
@@ -47,6 +56,20 @@ public class PlayerClass : MonoBehaviour
                 if (bulletPrefab != null)
                 {
                     Instantiate(bulletPrefab, transform.position, transform.rotation);
+                }
+                break;
+            }
+        }
+
+        foreach (KeyCode key in missileKeys) // เพิ่มการยิง Missile ที่ ขนาดใหญ่ กว่า bullet
+        {
+            if (Input.GetKeyDown(key))
+            {
+                if (bulletPrefab != null)
+                {
+                    
+                    Instantiate(missilePrefab, transform.position, transform.rotation);
+                    Debug.Log("Boom Key Pressed");
                 }
                 break;
             }
